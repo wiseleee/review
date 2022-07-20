@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.newempsvc.newempinfomgmt.mapper.NewEmpMapper">
+
+	<resultMap type="kr.co.seoulit.insa.newempsvc.newempinfomgmt.to.NewResumeTO" id="resumeResult">
+		<result property="p_code" column="P_CODE" />
+		<result property="p_name" column="P_NAME" />
+		<result property="p_age" column="P_AGE" />
+		<result property="p_gender" column="P_GENDER" />
+		<result property="p_address" column="P_ADDRESS" />
+		<result property="p_tel" column="P_TEL" />
+		<result property="p_email" column="P_EMAIL" />
+		<result property="p_dept" column="P_DEPT" />
+		<result property="p_last_school" column="P_LAST_SCHOOL" />
+		<result property="p_career" column="P_CAREER" />
+	</resultMap>
+	
+	<resultMap type="kr.co.seoulit.insa.newempsvc.newempinfomgmt.to.PersonalityInterviewTO" id="pinewempList">
+		<result property="p_code" column="P_CODE" />
+		<result property="p_name" column="P_NAME" />
+		<result property="p_age" column="P_AGE" />
+		<result property="p_challenge" column="P_CHALLENGE" />
+		<result property="p_creativity" column="P_CREATIVITY" />
+		<result property="p_passion" column="P_PASSION" />
+		<result property="p_cooperation" column="P_COOPERATION" />
+		<result property="p_globalmind" column="P_GLOBALMIND" />
+		<result property="i_attitude" column="I_ATTITUDE" />
+		<result property="i_scrupulosity" column="I_SCRUPULOSITY" />
+		<result property="i_reliability" column="I_RELIABILITY" />
+		<result property="i_creativity" column="I_CREATIVITY" />
+		<result property="i_positiveness" column="I_POSITIVENESS" />
+	</resultMap>
+	
+	<select id="findresumeList" resultMap="resumeResult" >
+      SELECT 
+      	P_CODE,
+      	P_NAME,
+      	P_AGE,
+      	P_GENDER,
+      	P_ADDRESS,
+      	P_TEL,
+      	P_EMAIL,
+      	P_DEPT,
+      	P_LAST_SCHOOL,
+      	P_CAREER
+      	FROM
+      		NEW_EMP_RESUME
+      		WHERE
+      			YEAR = #{year} AND HALF = #{half}
+   </select>
+   
+   <select id="findPInewempList" resultMap="pinewempList">
+	SELECT 
+		ner.P_NAME,
+		ner.P_AGE,
+		ner.P_CODE,
+		pi.I_ATTITUDE,
+		pi.I_CREATIVITY,
+		pi.I_POSITIVENESS,
+		pi.I_RELIABILITY,
+		pi.I_SCRUPULOSITY,
+		pi.P_CHALLENGE,
+		pi.P_COOPERATION,
+		pi.P_CREATIVITY,
+		pi.P_GLOBALMIND,
+		pi.P_PASSION
+		FROM
+			PERSONALITY_INTERVIEW pi,
+			NEW_EMP_RESUME ner
+			WHERE
+				pi.P_CODE = ner.P_CODE
+				AND
+					ner.year=#{year} AND ner.half = #{half}
+   </select>
+</mapper>
